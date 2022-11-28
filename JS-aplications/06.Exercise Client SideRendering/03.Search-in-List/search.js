@@ -1,36 +1,46 @@
-import { html, render } from '../node_modules/lit-html/lit-html.js';
-import {towns} from './towns.js';
+import { html, render } from './node_modules/lit-html/lit-html.js';
+import { towns } from './towns.js';
 
-const divTowns = document.getElementById('towns')
-const main = document.querySelector('body');
+const root = document.querySelector('#towns');
+document.querySelector('button').addEventListener('click', search);
+const result = document.querySelector('#result');
 
+update();
 
-const searchTemplate=(towns,input)=>html`
-<article>
-<div id="towns">
-    <ul>
-        ${towns.map(t=>allTownsTemplate(t,input))};
-    </ul>
-</div>
-<input type="text" id="searchText" />
-<button @click = ${search}>Search</button>
-<div id="result">${countMatches(towns,input)}</div>
-</article>`
-const allTownsTemplate = (town,input)=>html`
-<li class = ${(input && town.toLowerCase().includes(input.toLowerCase())) ? 'active':''}>${town}</li>`
+function createUl(allTowns, match) {
+   const template = html`
+   <ul>
+      ${allTowns.map(allTowns => createLi(allTowns, match))}
+   </ul>`;
 
-update()
-function update(input =''){
-   const res = searchTemplate(towns,input);
-   render(res,main)
+   return template;
 }
-function search() {
-   const input =  document.getElementById('searchText').value;
-//  const input =  document.getElementById('searchText').value;
- update(input)
 
+
+function createLi(town, match) {
+   return html`
+      <li class="${town.includes(match) 
+      ? "active" 
+      : ""
+      }">${town}</li>`
 }
-function countMatches(towns, input){
-const matches = towns.filter(t=>input && t.toLocaleLowerCase().includes(input.toLowerCase())).length ;
-return `${matches} matches found`  ;
+
+function update(text) {
+   const ul = createUl(towns, text)
+
+   render(ul, root);
+}
+
+function search(e) {
+   e.preventDefault();
+   const input = document.querySelector('#searchText');
+   const text = input.value;
+   update(text);
+   counter();
+}
+
+function counter() {
+   const matches = document.querySelectorAll('.active');
+   const showCount = matches ? html`<p>${matches.length} matches found</p>`: '';
+   render(showCount, result);
 }
