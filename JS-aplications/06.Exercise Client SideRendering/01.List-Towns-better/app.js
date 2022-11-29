@@ -11,7 +11,7 @@ function onSubmit(e) {//1
     const { towns } = Object.fromEntries(formData);
     const townsArray = towns.split(', ');
     renderTownList(townsArray);
-
+    form.reset()
 };
 
 function renderTownList(data) {//3
@@ -25,5 +25,5 @@ function crteateTownList(data) {//2
                     ${data.map(el => html`<li>${el}</li>`)}
                     </ul>
                     `;
-                    return ul
+    return ul
 };
