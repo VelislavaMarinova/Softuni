@@ -1,6 +1,7 @@
-import { login,register } from "../src/api/data.js"
-
+import { login, register } from "../src/api/data.js";
+import { html, render } from "../../node_modules/lit-html/lit-html.js";
 import page from "../../node_modules/page/page.mjs";
+
 import { catalogView } from "./views/catalog.js";
 import { createView } from "./views/create.js";
 import { detailsView } from "./views/details.js";
@@ -9,15 +10,25 @@ import { loginView } from "./views/login.js";
 import { myFurnitureView } from "./views/my-furniture.js";
 import { registerView } from "./views/register.js";
 
-page("/",catalogView);
-page("/catalog",catalogView);
-page("/create",createView);
-page("/details/id",detailsView);
-page("/edit/id",editView);
-page("/login",loginView);
-page("/my-furniture",myFurnitureView);
-page("/register",registerView);
-page("*",catalogView);
 
-window.login=login;
-window.register=register;
+const root = document.querySelector(".container");
+
+page("/", renderMiddleware, catalogView);
+page("/catalog", renderMiddleware, catalogView);
+page("/create", renderMiddleware, createView);
+page("/details/id", renderMiddleware, detailsView);
+page("/edit/id", renderMiddleware, editView);
+page("/login", renderMiddleware, loginView);
+page("/my-furniture", renderMiddleware, myFurnitureView);
+page("/register", renderMiddleware, registerView);
+page("*", renderMiddleware, catalogView);
+
+page.start();
+
+function renderMiddleware(ctx, next) {
+    ctx.render = (content) => render(content, root);
+    next();
+}
+
+window.login = login;
+window.register = register;

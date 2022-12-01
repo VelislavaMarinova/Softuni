@@ -54,7 +54,7 @@ export {
 // async function request(url, options) {
 //     try {
 //         const response = await fetch(host + url, options)
-//         if (!response) {//if response fails
+//         if (!response.ok) {//if response fails
 //             const err = await response.json();
 //             throw new Error(err.message);//връща се от сървъра
 //         }
