@@ -1,19 +1,9 @@
 import { get, post, put, del } from './api.js';
-
-
-
-
-
-
-
-
-
-
 const endpoints = {
-    'login': '/users/login',
-    'register': '/users/register',
-    "logout": "/users/logout",
-    "catalog": "/data/catalog",
+    'login': '/users/login/',
+    'register': '/users/register/',
+    "logout": "/users/logout/",
+    "catalog": "/data/catalog/",
     "myFurniture": "/data/catalog?where=_ownerId%3D%22"
 }
 // •	Login User (POST): http://localhost:3030/  
@@ -36,14 +26,13 @@ export async function logout() {
 };
 // •	Create Furniture (POST): http://localhost:3030/data/catalog
 export async function createItem(data) {
-    const res = await post(endpoints.catalog, { email, data });
+    const res = await post(endpoints.catalog, data);
     return res;
 };
 
 //All Furniture (GET): http://localhost:3030/data/catalog
 export async function getAllItems() {
     const res = await get(endpoints.catalog);
-    localStorage.setItem("userData", JSON.stringify(res));
     return res;
 };
 

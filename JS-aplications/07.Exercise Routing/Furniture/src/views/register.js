@@ -1,18 +1,20 @@
-import { html, render } from '../../../node_modules/lit-html/lit-html.js'
+import { html, render } from '../../node_modules/lit-html/lit-html.js'
 import { register } from '../api/data.js';
+import { updateNav } from '../app.js';
 
 let page = null;
 export async function registerView(ctx) {
     page = ctx.page;
     ctx.render(createRegisterTemplate(onSubmit))
 }
-function onSubmit(e) {
+async function onSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const { email, password, rePass } = Object.fromEntries(formData);
 
     //validation
-    register(email, password);
+    await register(email, password);
+    updateNav()
     page.redirect("/");
 }
 

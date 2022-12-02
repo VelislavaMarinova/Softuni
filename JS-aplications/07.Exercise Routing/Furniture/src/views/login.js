@@ -1,5 +1,6 @@
-import { html, render } from '../../../node_modules/lit-html/lit-html.js'
+import { html, render } from '../../node_modules/lit-html/lit-html.js'
 import { login } from '../api/data.js';
+import { updateNav } from '../app.js';
 
 let page = null;
 export async function loginView(ctx) {
@@ -7,13 +8,14 @@ export async function loginView(ctx) {
     ctx.render(createLoginTemplate(onSubmit));
 };
 
-function onSubmit(e) {
+async function onSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target)
     const { email, password } = Object.fromEntries(formData);
-    login(email,password);
+    await login(email,password);
     alert("succseful login")
-    page.redirect('/')
+    updateNav()
+   page.redirect('/')
 }
 
 function createLoginTemplate(handler) {

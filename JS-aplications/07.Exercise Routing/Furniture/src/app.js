@@ -1,6 +1,6 @@
 import { login, logout, register } from "../src/api/data.js";
-import { html, render } from "../../node_modules/lit-html/lit-html.js";
-import page from "../../node_modules/page/page.mjs";
+import { html, render } from "../node_modules/lit-html/lit-html.js";
+import page from "../node_modules/page/page.mjs";
 
 import { catalogView } from "./views/catalog.js";
 import { createView } from "./views/create.js";
@@ -16,16 +16,18 @@ const root = document.querySelector(".container");
 page("/", renderMiddleware, catalogView);
 page("/catalog", renderMiddleware, catalogView);
 page("/create", renderMiddleware, createView);
-page("/details/id", renderMiddleware, detailsView);
-page("/edit/id", renderMiddleware, editView);
+page("/details/:id", renderMiddleware, detailsView);
+page("/edit/:id", renderMiddleware, editView);
 page("/login", renderMiddleware, loginView);
 page("/my-furniture", renderMiddleware, myFurnitureView);
 page("/register", renderMiddleware, registerView);
 page("*", renderMiddleware, catalogView);
 
+
 page.start();
 updateNav();
 
+//logout:
 const logoutBtn = document.getElementById('logoutBtn');
 logoutBtn.addEventListener('click',async()=>{
     await logout();
@@ -34,7 +36,7 @@ logoutBtn.addEventListener('click',async()=>{
 });
 
 
-function updateNav() {
+export function updateNav() {
     const userSection = document.getElementById('user');
     const guestSection = document.getElementById('guest');
     const userData = JSON.parse(localStorage.getItem("userData"));
