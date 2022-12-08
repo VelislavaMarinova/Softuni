@@ -16,7 +16,7 @@ export function submitHandler(callback) {
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
         Object.values(data).forEach(x => console.log(x.trim()))
-        e.target.reset();
+        // e.target.reset();
         callback(data)
     }
 };

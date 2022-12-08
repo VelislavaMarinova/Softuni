@@ -6,7 +6,7 @@ const endpoints = {
     getById: "/data/pets/",
     myItems: (userId) => `/data/catalog?where=_ownerId%3D%22${userId}%22`,
     create: "/data/pets",
-    edit:"/data/catalog/",
+    edit:"/data/pets/",
     delete: "/data/pets/"
 };
 
