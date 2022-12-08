@@ -1,0 +1,89 @@
+import { register } from "../api/user.js";
+import { html } from "../lib.js";
+import { submitHandler } from "../util.js";
+
+
+export async function registerView(ctx) {
+    ctx.render(registerTempalte(submitHandler(onSubmit)))
+    async function onSubmit({ email, password,confpass}) {
+        console.log(confpass);
+                if (email == '' || password == '') {
+                    return alert('All fields are required');
+                }
+                if(password !=confpass){
+                   return alert('Password don\'t match');
+                }
+                await register(email, password);
+                ctx.updateNav()
+                ctx.page.redirect('/');
+            }
+}
+const registerTempalte = (onSubmit) => html`
+<section id="registerPage">
+<form @submit=${onSubmit}>
+    <fieldset>
+        <legend>Register</legend>
+
+        <label for="email" class="vhide">Email</label>
+        <input id="email" class="email" name="email" type="text" placeholder="Email">
+
+        <label for="password" class="vhide">Password</label>
+        <input id="password" class="password" name="password" type="password" placeholder="Password">
+
+        <label for="conf-pass" class="vhide">Confirm Password:</label>
+        <input id="conf-pass" class="conf-pass" name="confpass" type="password" placeholder="Confirm Password">
+
+        <button type="submit" class="register">Register</button>
+
+        <p class="field">
+            <span>If you already have profile click <a href="#">here</a></span>
+        </p>
+    </fieldset>
+</form>
+</section>
+`;
+
+
+// export async function registerView(ctx) {
+//     ctx.render(registerTempalte(submitHandler(onSubmit)));
+
+//     async function onSubmit({ email, password, repeatPassword}) {
+//         if (email == '' || password == '') {
+//             return alert('All fields are required');
+//         }
+//         if(password !=repeatPassword){
+//            return alert('Password don\'t match');
+//         }
+//         await register(email, password);
+//         ctx.updateNav()
+//         ctx.page.redirect('/');
+//     }
+// }
+
+// const registerTempalte = (onSubmit) => html` <section id="registerPage">
+// <form @submit=${onSubmit}class="registerForm">
+//     <img src="./images/logo.png" alt="logo" />
+//     <h2>Register</h2>
+//     <div class="on-dark">
+//         <label for="email">Email:</label>
+//         <input id="email" name="email" type="text" placeholder="steven@abv.bg" value="">
+//     </div>
+
+//     <div class="on-dark">
+//         <label for="password">Password:</label>
+//         <input id="password" name="password" type="password" placeholder="********" value="">
+//     </div>
+
+//     <div class="on-dark">
+//         <label for="repeatPassword">Repeat Password:</label>
+//         <input id="repeatPassword" name="repeatPassword" type="password" placeholder="********" value="">
+//     </div>
+
+//     <button class="btn" type="submit">Register</button>
+
+//     <p class="field">
+//         <span>If you have profile click <a href="#">here</a></span>
+//     </p>
+// </form>
+// </section>
+// `;
